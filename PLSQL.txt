@@ -1128,9 +1128,107 @@ END
 -----------------------------------------------------------------------------------------------------------------------------------------
 create table empdata(EMPNO NUMBER PRIMARY KEY,ENAME VARCHAR2(20),JOB VARCHAR2(20),SAL NUMBER,ANNUALSAL NUMBER )
 -----------------------------------------------------------------------------------------------------------------------------------------
+DECLARE
+BEGIN
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+FOR LOOP CURSOR
 
-We have already taken MD approval for removing the mail license. So we will discuss with CTO and CFO regarding this note and will update you.
+DECLARE
+	CURSOR ED IS SELECT * FROM EMPDATA;
+BEGIN
+	FOR VN IN ED
+	LOOP
+		dbms_output.put_line(VN.ENAME);
+	END LOOP;
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE PRODUCT(PRODID NUMBER,PRODNAME VARCHAR2(20),QTY NUMBER,UNITPRICE NUMBER)
+INSERT INTO PRODUCT VALUES(4,'SHOE',1000,100)
+UPDATE PRODUCT SET PRODID=5 WHERE PRODNAME='BAG'
+-----------------------------------------------------------------------------------------------------------------------------------------
+DECLARE
+	CURSOR PD IS SELECT * FROM PRODUCT;
+        DISC NUMBER;
+        BILLAMT NUMBER;
+BEGIN
+	FOR VN IN PD
+	LOOP
+        BILLAMT :=(VN.QTY*VN.UNITPRICE);
+        IF BILLAMT >1000
+        THEN
+        DISC:=(BILLAMT*0.05);
+		dbms_output.put_line(VN.PRODID||' '||VN.PRODNAME||' '||VN.QTY||' '||(VN.QTY*VN.UNITPRICE)||' '||DISC||' '||((VN.QTY*VN.UNITPRICE)-DISC));
+        ELSIF BILLAMT <=1000 THEN
+                DISC:=0;
+                dbms_output.put_line(VN.PRODID||' '||VN.PRODNAME||' '||VN.QTY||' '||(VN.QTY*VN.UNITPRICE)||' '||DISC||' '||((VN.QTY*VN.UNITPRICE)-DISC));
+        END IF;
+	END LOOP;
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
 
+DECLARE
+CURSOR SUP IS SELECT * FROM TEMPEMP;
+NEWSAL NUMBER;
+BEGIN
+
+FOR EMP IN SUP
+LOOP
+IF EMP.DEPTNO=10 THEN
+NEWSAL:=EMP.SAL+(EMP.SAL*0.05);
+UPDATE TEMPEMP SET SAL=NEWSAL WHERE DEPTNO=10;
+dbms_output.put_line(EMP.SAL);
+ELSIF EMP.DEPTNO=20 THEN
+UPDATE TEMPEMP SET SAL=SAL+(SAL*0.1) WHERE DEPTNO=20;
+dbms_output.put_line(EMP.SAL);
+ELSIF EMP.DEPTNO=30 THEN
+UPDATE TEMPEMP SET SAL=SAL+(SAL*0.15) WHERE DEPTNO=30;
+dbms_output.put_line(EMP.SAL);
+ELSIF EMP.DEPTNO=40 THEN
+UPDATE TEMPEMP SET SAL=SAL+(SAL*0.20) WHERE DEPTNO=40;
+dbms_output.put_line(EMP.SAL);
+END IF;
+END LOOP;
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+DECLARE
+	CURSOR SUP IS SELECT * FROM TEMPEMP;
+	NEWSAL NUMBER;
+BEGIN
+	FOR EMP IN SUP
+	LOOP
+	IF EMP.DEPTNO=10 THEN
+		NEWSAL:=EMP.SAL+(EMP.SAL*0.05);
+		--UPDATE TEMPEMP SET SAL=NEWSAL WHERE DEPTNO=10;
+		dbms_output.put_line(NEWSAL||' '||EMP.SAL );
+	ELSIF EMP.DEPTNO=20 THEN
+		NEWSAL:=EMP.SAL+(EMP.SAL*0.05);
+		--UPDATE TEMPEMP SET SAL=NEWSAL WHERE DEPTNO=20;
+		dbms_output.put_line(NEWSAL||' '||EMP.SAL );
+	ELSIF EMP.DEPTNO=30 THEN
+		NEWSAL:=EMP.SAL+(EMP.SAL*0.05);
+		--UPDATE TEMPEMP SET SAL=NEWSAL WHERE DEPTNO=30;
+		dbms_output.put_line(NEWSAL||' '||EMP.SAL );
+	ELSIF EMP.DEPTNO=40 THEN
+		NEWSAL:=EMP.SAL+(EMP.SAL*0.05);
+		--UPDATE TEMPEMP SET SAL=NEWSAL WHERE DEPTNO=40;
+		dbms_output.put_line(NEWSAL||' '||EMP.SAL );
+	END IF;
+	END LOOP;
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------------------------------
 
 
 
