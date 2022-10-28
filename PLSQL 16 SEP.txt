@@ -1,0 +1,1315 @@
+1.	count the number of employees in dept 10
+2.	display the average sal of clarks
+3.	select the employees in dept 30
+4.	List names,numbers and departments of  all clerks
+5.	Find the employees whose commission is greater than the salary
+6.	Find the details of all managers in dept 10 and all clerks in dept 20
+7.	Find the different jobs of employees receiving commission
+8.	Find the details of all managers in dept 10
+9.	Find the employees whos name starting with ‘A’
+10.	Display first three charecters of names of all employees
+11.	Display de
+ANSWER---------------------------------------------------------------------
+1	SELECT COUNT(EMPNO) FROM EMP WHERE DEPTNO=10;
+2	SELECT AVG(SAL) from emp where ename='CLARK';
+3	SELECT *from emp where deptno=30;
+4	SELECT ENAME,EMPNO,DEPTNO from emp;
+5	SELECT * from emp WHERE SAL< COMM;
+6	SELECT * from emp WHERE JOB =('MANAGER') AND DEPTNO =10;
+	SELECT * from emp WHERE JOB =('CLERK') AND DEPTNO =20;
+7	SELECT job from emp WHERE COMM >0
+8	SELECT * from emp WHERE JOB='MANAGER' AND DEPTNO='10'
+9	SELECT * from emp WHERE ENAME LIKE 'A%'
+10	--------------------
+11	INCOMPLETE QUESTION
+
+--------------------------------16 sep---------------------------------
+
+
+select * from emp // select * from emptemp
+select sal, sal+nvl(comm,0) as net from emp
+select * from emp where HIREDATE>'9/11/1920'==> MM/DD/YYYY
+select distinct(deptno) from emp
+select count(distinct(deptno)) as numberofDEPT from emp
+select avg(sal) from emp where deptno=20
+select deptno, avg(sal) from emp group by deptno
+select deptno, avg(sal) as AverageSal from emp group by deptno order by deptno
+select deptno, count(ename) from emp group by deptno order by deptno
+
+update emp set comm=1000 where lower(job)='president'
+update emp set sal=sal+10
+
+create table tablename as select * from emp // duplicate table
+--------------------------------19 sep---------------------------------
+Display dept with less than 5 employee?
+
+Select deptno from emp group by deptno having count(deptno)<5
+Select deptno as DepartmentName, count(deptno) as numberOfEmployee from emp group by deptno having count(deptno)<5
+
+--------------------------------------20 Sep---------------------------------------
+Answer
+Select deptno, count(*) as numberOfEmployee from emp group by deptno 
+* to denote column
+
+update emptemp set sal=sal+(sal*0.05),job='OFFICER' where lower(job)='clerk'
+
+----------------------------------------------21 Sep-----------------------------------------
+SUBQUERY
+
+ select * from emp where deptno=(select deptno from emptemp where ename='ALLEN')
+
+Q: DETAILS OF EMP IN SLAES DEPARTMENT
+ANSWER: select * from emp where deptno=(select deptno from DEPT where Dname='SALES')
+
+Q: DISPLAY EMP SAL MORE THAN ALLEN
+select * from emp where SAL>(select SAL from EMP where Ename='ALLEN')
+
+select * from emp where DEPTNO=(select deptno from DEPT where Dname='OPERATION')
+
+
+select * from EMP where deptno=(select deptno from DEPT where Dname='OPERATIONS')
+
+
+select * from EMP where deptno=(select deptno from DEPT where Dname='SALES') AND HIREDATE>(select HIREDATE from EMP where Ename='ALLEN')
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+Create table course(CName varchar2(20), CID number primary key)
+
+insert into course(CName ,CID) values('C',004)
+
+Select * from course
+
+Create table Stu(Sname varchar2(20),SID number primary key, CourseID number references course(CID))
+insert into Stu values ('NIKHIL',1,001)
+Select * from STU
+aLTER TABLE STU ADD MARK NUMBER
+UPDATE STU SET MARK=45
+UPDATE STU SET MARK=40 WHERE COURSEID=3
+
+select * from stu where courseid=(Select cid from course WHERE cname='SQL')
+Select MAX(MARK) from STU
+Select MIN(MARK) from STU
+Select ALL(MARK) from STU
+Select AVG(MARK) from STU
+Select * from STU ORDER BY MARK
+Select AVG(MARK) from STU GROUP BY COURSEID
+Select CNAME from COURSE WHERE CID=( SELECT COURSEID FROM STU WHERE SNAME ='SACHIN')
+
+Select CNAME from COURSE WHERE CID>ALL(SELECT COURSEID FROM STU)-----------> C 4,RUBY 5
+Select CNAME from COURSE WHERE CID>ANY(SELECT COURSEID FROM STU)-----------> C,RUBY,PYTHON,SQL
+Select * from COURSE ORDER BY CID
+SELECT MAX(MARK) FROM STU WHERE MARK NOT IN (SELECT MAX(MARK)FROM STU)-----------> SECOND HIGHEST
+SELECT * FROM STU WHERE MARK=(SELECT MAX(MARK) FROM STU WHERE MARK NOT IN (SELECT MAX(MARK)FROM STU))------->DETAILS OF SECOND HIGHEST
+SELECT * FROM STU WHERE MARK IN(SELECT MIN(MARK) FROM STU)------------->MINIMUM MARK
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+STOCK(PRODID,PRODNAME.PPRICE,PQUANTITY)--------->Create table STOCK(PRODID number references SALES(PRODID),PRODNAME VARCHAR2(20),PPRICE NUMBER,PQUANTITY NUMBER)
+456,'PAPER',8,80
+154,'PENCIL',18,80
+478,'PEN',78,20
+658,'POSTER',38,80
+INSERT INTO STOCK VALUES(489,'BOOK',48,80)
+
+SALES(PRODID,SQTY,SID)---->Create table SALES(PRODID number primary key, SQTY number, SID number )
+
+456,80,756
+154,80,556
+478,80,85
+658,80,857
+INSERT INTO SALES VALUES(489,80,87)
+-----------------------------------------------------------------------------------------------------------------------------------------
+JOIN
+
+select  sname, sid, courseid, mark, duration, fees from stu, course where stu.courseid=course.cid
+select  sname, fees, duration from stu,course where stu.courseid=course.cid
+select  sname, fees, duration from stu s,course c where s.courseid=c.cid--------------->alias course c, stu s
+select * from stu, course where stu.courseid=course.cid order by mark desc
+select * from stu inner join course on stu.courseid=course.cid
+select * from stu , course where stu.courseid=course.cid
+
+select empno,ename,job,dname,hiredate  from emp, dept where emp.deptno=dept.deptno and hiredate >'04/02/1981'
+
+SAME--------------->
+select Ename,job from emp, dept where emp.deptno=dept.deptno and loc='CHICAGO'
+select Ename,job from emP JOIN dept ON emp.deptno=dept.deptno and loc='CHICAGO'
+------------------->
+SELECT * FROM COURSE C JOIN STU S ON C.CID=S.COURSEID
+
+
+
+-------------------------------------------------------------------27 SEP-------------------------------------------------------------------
+CREATE TABLE GRADE(LM NUMBER,HM NUMBER, GRADE VARCHAR2(20))
+
+select sid, sname,mark,grade from stu , grade where stu.mark>=grade.lm and stu.mark<=grade. hm order by mark
+SELECT SNAME, CNAME, MARK FROM STU,COURSE WHERE STU.COURSEID=COURSE.CID
+SELECT SNAME, CNAME, MARK FROM STU,COURSE WHERE STU.COURSEID=COURSE.CID AND CNAME NOT IN 'JAVA'
+
+STUDENT EXCEPT JAVA------------------>
+SELECT SNAME, CNAME,GRADE, MARK FROM STU,COURSE,GRADE WHERE STU.COURSEID=COURSE.CID AND CNAME NOT IN 'JAVA' AND STU.MARK>=GRADE.LM AND STU.MARK<=GRADE.HM
+SELECT SID,SNAME, CNAME,GRADE, MARK FROM STU,COURSE,GRADE WHERE STU.COURSEID=COURSE.CID AND CNAME NOT IN 'JAVA' AND (MARK BETWEEN LM AND HM) ORDER BY SID
+
+
+STUDENT IN JAVA------------------>
+SELECT SNAME, CNAME,GRADE, MARK FROM STU,COURSE,GRADE WHERE STU.COURSEID=COURSE.CID AND CNAME NOT 'JAVA' AND STU.MARK>=GRADE.LM AND STU.MARK<=GRADE.HM ORDER BY MARK
+SELECT SID,SNAME, CNAME,GRADE, MARK FROM STU,COURSE,GRADE WHERE STU.COURSEID=COURSE.CID AND CNAME IN 'JAVA' AND (MARK BETWEEN LM AND HM) ORDER BY SID
+
+
+ALL STUDENT---------------------->
+SELECT SNAME, CNAME,GRADE, MARK FROM STU,COURSE,GRADE WHERE STU.COURSEID=COURSE.CID AND STU.MARK>=GRADE.LM AND STU.MARK<=GRADE.HM ORDER BY MARK
+
+
+
+
+MORE SAL THAN JONES-------------->EMP
+SELECT E.EMPNO,E.ENAME FROM EMP E , EMP E1 WHERE E.SAL>E1.SAL AND E1.ENAME='JONES'
+
+
+SELECT E.EMPNO,E.ENAME,E.SAL FROM EMP E , EMP E1 WHERE E.HIREDATE>E1.HIREDATE AND E1.ENAME='SCOTT'
+
+
+manager details
+select e.ename, e.empno,e.job, e.mgr,e1.ename as manager,e1.empno from emp e,emp e1 where  e.mgr=e1.empno
+select e.ename,e.mgr,e1.ename from emp e,emp e1 where e.mgr=e1.empno
+
+select e.ename,e.mgr,e1.ename from emp e,emp e1 where e.mgr IN (e1.empno,NULL) OR E.MGR IS NULL AND E1.MGR IS NULL
+select e.empno, e.ename,e.mgr,e1.ename as manager from emp e,emp e1 where e.mgr IN (e1.empno,NULL) OR E.MGR IS NULL AND E1.MGR IS NULL
+select e.empno, e.ename,nvl(e.mgr,0) as MGRCODE,e1.ename as manager from emp e,emp e1 where e.mgr = e1.empno OR E.MGR IS NULL AND E1.MGR IS NULL
+
+-------------------------------------------------------30 SEP
+GET ALL DETAIL EVEN NULL----->(+)
+
+SELECT S.SNAME,S.SID ,C.CNAME FROM STU S,COURSE C WHERE S.COURSEID(+)=C.CID
+
+Q1:SELECT D.DNAME  FROM EMP E,DEPT D WHERE E.DEPTNO=D.DEPTNO AND E.EMPNO IS NOT NULL;
+Q2:SELECT * FROM EMP WHERE SAL> (SELECT SAL FROM EMP WHERE ENAME='SCOTT')
+Q3:select e.ename,e1.ename AS MANAGER from emp e,emp e1 where e.mgr IN (e1.empno,NULL)
+Q4:select e.ename,E.HIREDATE,e1.ename AS MANAGER,E1.HIREDATE AS MGRHIREDATE from emp e,emp e1 where e.mgr IN (e1.empno,NULL) AND E.HIREDATE<E1.HIREDATE
+Q5:select e.ename,D.DNAME from emp e,DEPT D where E.DEPTNO(+)=D.DEPTNO
+Q6:select E.ENAME,e.JOB,D.DNAME from emp e,DEPT D where E.DEPTNO=D.DEPTNO AND E.JOB='CLERK'
+Q7:select E.ENAME,e.JOB,E.SAL,D.DNAME from emp E,DEPT D WHERE SAL>1500 AND E.DEPTNO=D.DEPTNO ORDER BY E.DEPTNO,E.SAL DESC
+Q8:select E.ENAME,e.JOB,D.DNAME from emp e,DEPT D where E.DEPTNO=D.DEPTNO AND D.DNAME='SALES'
+Q9:select E.ENAME,e.JOB,E.SAL from emp E WHERE SAL>(SELECT AVG(SAL) FROM EMP)
+co related sub query
+Q10:select * from emp WHERE JOB=(SELECT JOB FROM EMP WHERE ENAME='SCOTT')
+
+---------------------------------------06-OCT-----------------------------------------------------------
+begin
+dbms_output.put_line('hello World');
+end;
+
+
+DECLARE 
+    subtype msg is varchar2(20);
+    greeting msg:='rwer wer wer';
+BEGIN 
+  
+   dbms_output.put_line(greeting); 
+END; 
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------
+Declare
+
+name varchar2(100):='NIKHIL';
+
+name1 varchar2(100) not null :='NdddsHIL';
+subtype frnd is varchar2(100);
+fnd frnd;
+msg frnd;
+
+mark number default 10;
+begin
+    fnd:='friend'; 
+
+ /*name1:=null;
+   name1:=null; will give you error*/
+
+msg :='WELCOME';
+
+    dbms_output.put_line(msg ||' MY '||fnd||' '|| name|| ' mark is '||mark);
+
+end;
+---------------------------------------------------------------------------------------------
+declare
+
+mark1 number;            
+mark2 number;           
+sum1 number;       
+avg1 number;  
+
+begin
+ 
+mark1:=:mark1;                
+mark2:=:mark2;                
+sum1 :=mark1+mark2;      
+avg1:=sum1/2;          
+ 
+dbms_output.put_line(sum1 ||' avg is'||avg1);
+end;
+
+-----------------------------------------------------------------------------------------------------------
+IF CONDITION THEN
+	statement;
+else
+	statement;
+end if;
+
+Example:-----------
+
+declare 
+num1 number;
+num2 number;
+num3 number;
+begin
+
+  num1:=:num1;
+  num2:=:num2;
+  num3:=(num1+num2)/2;
+if num3<2 
+then
+  dbms_output.put_line('AVG is less than 2:  '||num3);
+else
+  dbms_output.put_line('AVG is greater than 2 :  '||num3);
+end if;
+end
+-----------------------------------------------------------------------------------------------------------------
+declare 
+num1 number;
+num2 number;
+num3 number;
+num4 number;
+total number;
+perc number;
+grade varchar2(20);
+begin
+num1 :=:num1;
+num2 :=:num2;
+num3 :=:num3;
+num4 :=:num4;
+
+total:=num1+num2+num3+num4;
+perc:=(total/400)*100;
+  
+if perc>=80 then
+
+grade:='distinction  ';
+elsif perc>=60 then
+
+grade:='first ';
+elsif perc>=40 then
+
+grade:='Second ';
+elsif perc>=20 then
+
+grade:='failed ';
+end if;
+dbms_output.put_line('Passes with '||perc|| ' percentage');
+dbms_output.put_line('student grade is '||grade);
+end
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+11-OCT-2022
+--------------------------------------
+declare 
+
+CR number;
+PR number;
+UC number;
+RPU FLOAT ;
+
+/*   
+<=40 45ps
+<60 50pc
+<90 80ps
+>90 1rs
+*/
+
+begin
+CR :=:CR;
+PR :=:PR;
+UC :=CR-PR;
+ 
+IF UC<=40 THEN
+RPU:=0.45*UC;
+ELSIF UC<60 THEN
+RPU:=.50*UC;
+ELSIF UC<90 THEN
+RPU:=.80*UC;
+ELSIF UC>90 THEN
+RPU:=1.00*UC;
+END IF;
+
+dbms_output.put_line('CURRENT USAGE: '||CR);
+dbms_output.put_line('PREVIOUS USAGE: '||PR);
+dbms_output.put_line('THIS MONTH USAGE: '||UC);
+dbms_output.put_line('AMOUNT TO BE PAID: '||RPU);
+end
+-----------------------------------------------------------------------------------------------------------------------------------------
+NESTED IF
+
+EXERCISE 12-OCT-2022
+
+declare 
+
+AGE number;
+GENDER VARCHAR2(20);
+
+begin
+
+AGE :=:AGE;
+GENDER :=:GENDER;
+
+
+IF GENDER='FEMALE' OR GENDER='female' AND  AGE>=18 THEN
+dbms_output.put_line('ELIGIBLE TO MARRY');
+elsif GENDER='MALE' OR GENDER='male' AND  AGE>=22 THEN
+dbms_output.put_line('ELIGIBLE TO MARRY');
+ELSE
+dbms_output.put_line('NOT ELIGIBLE TO MARRY');
+END IF;
+end
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+CASE ------------->SWITCH
+
+declare 
+AGE number;
+GENDER VARCHAR2(20);
+begin
+AGE :=:AGE;
+GENDER :=:GENDER;
+CASE AGE
+ WHEN 18 THEN
+  dbms_output.put_line('ELIGIBLE TO MARRY');
+ WHEN 22 THEN
+  dbms_output.put_line('ELIGIBLE TO MARRY');
+ELSE
+  dbms_output.put_line('NOT ELIGIBLE TO MARRY');
+END CASE;
+end
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------.
+CASE ------------->SWITCH
+
+DECLARE
+
+AGE number;
+GENDER VARCHAR2(20);
+
+BEGIN
+
+AGE :=:AGE;
+
+CASE AGE
+ WHEN 18 THEN
+  dbms_output.put_line('ELIGIBLE TO VOTE');
+ WHEN 22 THEN
+  dbms_output.put_line('ELIGIBLE TO VOTE');
+ELSE
+  dbms_output.put_line('NOT ELIGIBLE TO VOTE');
+END CASE;
+
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+DECLARE
+DAY number;
+BEGIN
+DAY:=:DAY;
+CASE DAY
+ WHEN 1 THEN
+  dbms_output.put_line('TODAY IS MONDAY');
+ WHEN 2 THEN
+  dbms_output.put_line('TODAY IS TUESDAY');
+ WHEN 3 THEN
+  dbms_output.put_line('TODAY IS WEDNESDAY');
+ WHEN 4 THEN
+  dbms_output.put_line('TODAY IS THURSDAY');
+ WHEN 5 THEN
+  dbms_output.put_line('TODAY IS FRIDAY');
+ WHEN 6 THEN
+  dbms_output.put_line('TODAY IS SATURDAY');
+ WHEN 7 THEN
+  dbms_output.put_line('TODAY IS SUNDAY');
+ELSE
+  dbms_output.put_line('INVALID DAY');
+END CASE;
+END
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+DECLARE
+CR number;
+PR number;
+UC number;
+
+RPUC FLOAT ;
+RPUI FLOAT ;
+RPUH FLOAT ;
+
+/*   
+<=40 HOUSE==> 45ps     INDUS==> 50ps COMMER==> 65ps
+<60      C==> 50pc     INDUS==> 55ps  INDUS==> 70ps
+<80      C==> 75ps     INDUS==> 80ps  INDUS==> 85ps
+<90      C==> 80ps     INDUS==> 85ps  INDUS==> 90ps
+>90      C==> 1rs      INDUS==> 2RS   INDUS==> 4RS
+*/
+
+BEGIN
+PR :=:PREVIOUS_MONTH_READING;
+CR :=:CURRENT_MONTH_READING;
+UC :=CR-PR;
+
+IF UC<=40 THEN
+RPUH:=0.45*UC;
+RPUC:=0.50*UC;
+RPUI:=0.65*UC;
+
+ELSIF UC<60 THEN
+RPUH:=.50*UC;
+RPUC:=.55*UC;
+RPUI:=.70*UC;
+
+ELSIF UC<80 THEN
+RPUH:=.75*UC;
+RPUC:=.80*UC;
+RPUI:=.85*UC;
+
+ELSIF UC<90 THEN
+RPUH:=.80*UC;
+RPUC:=.85*UC;
+RPUI:=.90*UC;
+
+ELSIF UC>90 THEN
+RPUH:=1.00*UC;
+RPUC:=2.00*UC;
+RPUI:=4*UC;
+END IF;
+
+dbms_output.put_line('PREVIOUS MONTH READING: '||PR);
+dbms_output.put_line('CURRENT MONTH READING: '||CR);
+dbms_output.put_line('THIS MONTH USAGE: '||UC||' UNITS');
+
+dbms_output.put_line('AMOUNT TO BE PAID BY HOUSE: '||RPUH||' RS');
+dbms_output.put_line('AMOUNT TO BE PAID BY COMMER: '||RPUC||' RS');
+dbms_output.put_line('AMOUNT TO BE PAID BY INDUSTRIAL: '||RPUI||' RS');
+
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+13-OCT-2022
+
+LOOP
+
+DECLARE
+
+N1 NUMBER;
+N2 NUMBER;
+N3 NUMBER;
+BEGIN
+
+N1 :=15;
+N2 :=15;
+N3 :=N1+N2;
+
+LOOP
+  dbms_output.put_line('VALUE '||N3);
+  N3:=N3+N3;
+  IF N3>1000 THEN
+  EXIT;
+  END IF;
+END LOOP;
+
+
+END
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+DECLARE
+
+N1 NUMBER;
+N2 NUMBER;
+N3 NUMBER;
+BEGIN
+
+N1 :=15;
+N2 :=15;
+N3 :=N1+N2;
+
+LOOP
+  dbms_output.put_line('VALUE '||N3);
+  N3:=N3+N3;
+  EXIT WHEN N3>1000;
+END LOOP;
+
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------------------------
+DECLARE
+N1 NUMBER;
+BEGIN
+N1:=1;
+LOOP 
+dbms_output.put_line('CURRENT VALUE '||N1);
+N1:=N1+1;
+EXIT WHEN N1=11;
+
+END LOOP;
+END
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+GOTO
+
+DECLARE
+N1 NUMBER;
+BEGIN
+N1:=1;
+<<AGAINLOOP>>
+LOOP 
+dbms_output.put_line('CURRENT VALUE '||N1);
+N1:=N1+1;
+IF N1=4 THEN
+ N1:=N1+2;
+ GOTO AGAINLOOP;
+ END IF;
+EXIT WHEN N1=11;
+
+END LOOP;
+END
+----------------------------------------------------------------------------------------------------------------------------------------
+While loop------------------> 14-OCT
+
+DECLARE
+num1 number;
+num2 number;
+
+BEGIN
+num1:=1;
+num2:=1;
+dbms_output.put_line('VALUE of X is '||num1);
+while num1<11
+loop
+  dbms_output.put_line(num1);
+  num1:=num1+1;
+end loop;
+END
+
+------------------------>
+DECLARE
+x number;
+y number;
+
+BEGIN
+x:=1;
+y:=1;
+
+
+while x<11
+loop
+ 
+  while y<11
+  loop
+  dbms_output.put_line(x||'*'||y||'='||x*y);
+  y:=y+1;
+  end loop;
+ dbms_output.put_line('');
+ y:=1;
+ x:=x+1;
+end loop;
+
+
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+loop nested------------------------->
+DECLARE
+x number;
+y number;
+
+BEGIN
+x:=1;
+y:=1;
+
+loop
+ 
+  loop
+  dbms_output.put_line(x||'*'||y||'='||x*y);
+  y:=y+1;
+  exit when y=11;
+  end loop;
+ dbms_output.put_line('');
+ y:=1;
+ x:=x+1;
+ exit when x=11;
+end loop;
+
+
+END
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+CASE
+
+DECLARE 
+   grade char(1); 
+   grade1 char(1);
+BEGIN 
+   grade1:=:EnterGrade;
+   grade:=UPPER(grade1);
+   CASE grade 
+      when 'A' then dbms_output.put_line('Excellent'); 
+      when 'B' then dbms_output.put_line('Very good'); 
+      when 'C' then dbms_output.put_line('Well done'); 
+      when 'D' then dbms_output.put_line('You passed'); 
+      when 'F' then dbms_output.put_line('Better try again'); 
+      else dbms_output.put_line('No such grade'); 
+   END CASE; 
+END;
+-----------------------------------------------------------------------------------------------------------------------------------------
+DATA from TABLE in PL SQL
+------------------>
+DECLARE
+vmark stu.mark%type;
+BEGIN
+select mark into vmark from stu where sname='RAMY';
+dbms_output.put_line(vmark);
+END
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+-----> EXCERCISE
+DECLARE
+Sroll stu.sid%type;
+Smark stu.mark%type;
+Sname stu.sname%type;
+
+BEGIN
+Sroll:=:ROLL_NUMBER;
+
+select mark into Smark from stu where sid=Sroll;
+select Sname into Sname from stu where sid=Sroll;
+
+if Smark>=60 then
+ 
+dbms_output.put_line('WELL DONE '||Sname||' YOUR SCORE IS '||Smark);
+
+else
+
+dbms_output.put_line('TRY AGAIN NEXT TIME '|| Sname);
+
+end if;
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+-----> EXCERCISE
+DECLARE
+Sroll stu.sid%type;
+Smark stu.mark%type;
+Sname stu.sname%type;
+BEGIN
+Sroll:=:ROLL_NUMBER;
+select mark,sname into Smark,Sname from stu where sid=Sroll;
+if Smark>=60 then
+	dbms_output.put_line('WELL DONE '||Sname||' YOUR SCORE IS '||Smark);
+else
+	dbms_output.put_line('TRY AGAIN NEXT TIME '|| Sname);
+end if;
+END
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+DECLARE
+Vtempstu stu%rowtype;
+BEGIN
+Select * into Vtempstu from stu where sid=2;
+dbms_output.put_line(Vtempstu.sid||' '|| Vtempstu.sname);
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+TABLE MODIFICATION THROUGH PLSQL-------------------------->
+
+DECLARE
+Vtempstu stu%rowtype;
+
+BEGIN
+
+update stu set mark=70 where sid=2;
+insert into stu values('AMIT',6,3,35);
+Select * into Vtempstu from stu where sid=2;
+
+dbms_output.put_line(Vtempstu.sid||' '|| Vtempstu.sname);
+END
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+SNAME	SID	COURSEID	MARK
+NIKHIL	1	1	60
+
+
+CNAME	CID	FEES	DURATION
+C	4	200	2
+
+
+create table stupass( roll number, name varchar2(20),cid number, cname varchar2(20))
+
+roll, name, cid,cname-------> table
+-----------------------------------------------------------------------------------------------------------------------------------------
+DECLARE
+Vtempstu stu%rowtype;
+Vtempcourse course%type;
+
+BEGIN
+select cname into Vtempcourse from stu, course where courseid=cid and mark>59
+
+Select * into Vtempstu from stu where mark>59;
+insert into stupass values(Vtempstu.sid,Vtempstu.sname,Vtempstu.courseid,Vtempcourse.cname);
+
+END
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+DECLARE
+Vtempstu stu%rowtype;
+Vtempcourse course%rowtype;
+
+BEGIN
+select * into Vtempcourse from stu, course where courseid=cid and mark>60;
+Select * into Vtempstu from stu where mark>60;
+insert into stupass values(Vtempstu.sid,Vtempstu.sname,Vtempstu.courseid,Vtempcourse.cname);
+
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+Excercise------------------------->
+DECLARE
+Vtempstu stu%rowtype;
+Vtempcourse course%rowtype;
+
+BEGIN
+
+Select * into Vtempstu from stu where mark>60;
+select * into Vtempcourse from course where cid=Vtempstu.courseid;
+insert into stupass values(Vtempstu.sid,Vtempstu.sname,Vtempstu.courseid,Vtempcourse.cname);
+
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+Excercise------------------------->
+DECLARE
+Vtempstu stu%rowtype;
+Vtempcourse course%rowtype;
+
+BEGIN
+
+Select * into Vtempstu from stu where mark=60;
+select * into Vtempcourse from course where cid=Vtempstu.courseid;
+
+dbms_output.put_line(Vtempstu.sid||' '|| Vtempstu.sname||' '||Vtempstu.courseid||' '||Vtempcourse.cname );
+insert into stupass values(Vtempstu.sid,Vtempstu.sname,Vtempstu.courseid,Vtempcourse.cname);
+
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+----->19-oct------------>Assignment 1
+DECLARE
+	tempemp emp%rowtype;
+	empid number;
+BEGIN
+	empid:=:EMPID;
+	Select * into tempemp from emp where empno=empid;
+	dbms_output.put_line(tempemp.ename ||' '||tempemp.job ||' '||tempemp.mgr ||' '||tempemp.hiredate||' '||tempemp.sal ||' '||tempemp.comm||' '||tempemp.deptno );
+	/*
+	EMPNO	ENAME	JOB	MGR	HIREDATE	SAL	COMM	DEPTNO
+	7839	KING	PRESIDENT	- 	11/17/1981	5010	1000	10
+	7698	BLAKE	MANAGER	7839	05/01/1981	2860	- 	30
+	*/
+END
+	
+-----------------------------------------------------------------------------------------------------------------------------------------
+select (sal+nvl(comm,0))*12 as grosssal from emp
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+EXCEPTION---------------------->
+DECLARE
+	tempemp emp%rowtype;
+	empid number;
+BEGIN
+	empid:=:EMPID;
+	Select * into tempemp from emp where empno=empid;
+	dbms_output.put_line(tempemp.ename ||' '||tempemp.job ||' '||tempemp.mgr ||' '||tempemp.hiredate||' Gross Salary: '||((tempemp.sal+tempemp.comm)*12)||' Deptno: '||tempemp.deptno );
+	/*
+	EMPNO	ENAME	JOB	MGR	HIREDATE	SAL	COMM	DEPTNO
+	7839	KING	PRESIDENT	- 	11/17/1981	5010	1000	10
+	7698	BLAKE	MANAGER	7839	05/01/1981	2860	- 	30
+	*/
+exception
+  when others THEN
+  dbms_output.put_line('sdfsdfs');
+
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+EX-1------------->
+DECLARE
+	tempemp emp%rowtype;
+	empid number;
+BEGIN
+	empid:=:EMPID;
+	Select * into tempemp from emp where empno=empid;
+	dbms_output.put_line(tempemp.ename ||' '||tempemp.job ||' '||tempemp.mgr ||' '||tempemp.hiredate||' Salary: '||tempemp.sal||' Deptno: '||tempemp.deptno );
+	
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+EX-2------------->
+DECLARE
+	tempemp emp%rowtype;
+	tempcom emp.comm%type;
+	empid number;
+BEGIN
+	empid:=:EMPID;
+	Select * into tempemp from emp where empno=empid;
+	Select nvl(comm,0) into tempcom from emp where empno=empid;
+	dbms_output.put_line(tempemp.ename);
+        dbms_output.put_line('');
+	dbms_output.put_line('Gross Salary: '||((tempemp.sal+tempcom)*12));
+END
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+EX-3 COMPLETE------------->
+
+DECLARE
+	vtempemp tempemp%rowtype;
+BEGIN
+	--SELECT * INTO vtempemp FROM tempemp WHERE ENAME='KING';
+	--dbms_output.put_line('SALARY CHANGED FROM '||vtempemp.SAL);
+	UPDATE TEMPEMP SET SAL=(SAL+((SAL*0.05))) WHERE DEPTNO=10;
+	UPDATE TEMPEMP SET SAL=(SAL+((SAL*0.1))) WHERE DEPTNO=20;
+	UPDATE TEMPEMP SET SAL=(SAL+((SAL*0.15))) WHERE DEPTNO=30;
+	UPDATE TEMPEMP SET SAL=(SAL+((SAL*0.20))) WHERE DEPTNO=40;
+	--SELECT * INTO vtempemp FROM tempemp WHERE ENAME='KING';
+	--dbms_output.put_line('SALARY CHANGED TO '||vtempemp.SAL);
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+EXCEPTION BLOCK TUTORIAL------------------->
+
+DECLARE
+	tempemp emp%rowtype;
+	tempcom emp.comm%type;
+	empid number;
+BEGIN
+	empid:=:EMPID;
+	Select * into tempemp from emp where empno=empid;
+	Select nvl(comm,0) into tempcom from emp where empno=empid;
+	dbms_output.put_line(tempemp.ename);
+        dbms_output.put_line('');
+	dbms_output.put_line('Gross Salary: '||((tempemp.sal+tempcom)*12));
+
+exception
+  when NO_DATA_FOUND THEN
+  dbms_output.put_line('NO SUCH EMPLOYEE');
+  when OTHERS THEN
+  dbms_output.put_line('INVALID EMPLOYEE ID');
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+create table tempemp as select * from emp
+-----------------------------------------------------------------------------------------------------------------------------------------
+DECLARE
+
+  vtempemp tempemp%rowtype;
+
+BEGIN
+  select * INTO vtempemp from tempemp where Ename='KING';
+  dbms_output.put_line(vtempemp.SAL);
+/* EMPNO	ENAME	JOB	MGR	HIREDATE	SAL	COMM	DEPTNO
+7839	KING	PRESIDENT	- 	11/17/1981	5010	1000	10
+7698	BLAKE	MANAGER	7839	05/01/1981	2860	- 	30
+7782	CLARK	MANAGER	7839	06/09/1981	2460	- 	10
+*/
+
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+Cursor------------------->
+DECLARE  
+   total_rows number(2); 
+BEGIN 
+   UPDATE tempemp
+   SET sal= sal+ 500; 
+   IF sql%notfound THEN 
+      dbms_output.put_line('no emp selected'); 
+   ELSIF sql%found THEN 
+      total_rows := sql%rowcount;
+      dbms_output.put_line( total_rows || ' emp selected '); 
+   END IF;  
+END; 
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+DECLARE
+	CURSOR C1 is select ename,job from tempemp;
+	ename1 tempemp.ename%type;
+	ejob tempemp.job%type;
+BEGIN
+	dbms_output.put_line( 'EMPNAME---POST'); 
+	open C1;
+	loop
+		fetch C1 into ename1,ejob;
+		exit when C1%notfound;
+		dbms_output.put_line( ename1||'---'||ejob); 
+	end loop;
+close C1;
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+DECLARE
+	CURSOR C1 is select ename,job from tempemp;
+	ename1 tempemp.ename%type;
+	ejob tempemp.job%type;
+BEGIN
+	dbms_output.put_line( 'EMPNAME---POST'); 
+	open C1;
+	loop
+		fetch C1 into ename1,ejob;
+		exit when C1%notfound;
+                if ejob='ANALYST' THEN
+                dbms_output.put_line( ename1||' --- '||ejob);
+                END IF;
+		 
+	end loop;
+close C1;
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE RESULT(SNAME VARCHAR2(20),SID NUMBER PRIMARY KEY,MARK NUMBER,GRADE VARCHAR2(20))
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+DECLARE
+CURSOR TS IS SELECT SNAME,SID,MARK FROM TEMPSTU;
+STNAME TEMPSTU.SNAME%TYPE;
+STSID TEMPSTU.SID%TYPE;
+STMARK TEMPSTU.MARK%TYPE;
+BEGIN
+
+UPDATE TEMPSTU
+ SET SNAME='AMITY' WHERE SID=6;
+
+OPEN TS;
+LOOP
+FETCH TS INTO STNAME,STSID,STMARK;
+if stmark>40 then
+dbms_output.put_line( STNAME||' '||STSID||' '||STMARK);
+end if;
+EXIT WHEN TS%NOTFOUND;
+END LOOP;
+
+CLOSE TS;
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+DECLARE
+CURSOR TS IS SELECT SNAME,SID,MARK FROM TEMPSTU;
+STNAME TEMPSTU.SNAME%TYPE;
+STSID TEMPSTU.SID%TYPE;
+STMARK TEMPSTU.MARK%TYPE;
+BEGIN
+
+
+--RESULT(SNAME VARCHAR2(20),SID NUMBER PRIMARY KEY,MARK NUMBER,GRADE VARCHAR2(20))
+
+OPEN TS;
+LOOP
+FETCH TS INTO STNAME,STSID,STMARK;
+if stmark>40 then
+
+UPDATE RESULT
+ SET SNAME =STNAME,SID=STSID,MARK=STMARK,GRADE='pass'  WHERE SID=6;
+
+dbms_output.put_line( STNAME||' '||STSID||' '||STMARK);
+end if;
+EXIT WHEN TS%NOTFOUND;
+END LOOP;
+
+CLOSE TS;
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+DECLARE
+CURSOR dds IS SELECT SNAME,SID,MARK FROM TEMPSTU;
+
+STNAME TEMPSTU.SNAME%TYPE;
+STSID TEMPSTU.SID%TYPE;
+STMARK TEMPSTU.MARK%TYPE;
+
+BEGIN
+
+
+--RESULT(SNAME VARCHAR2(20),SID NUMBER PRIMARY KEY,MARK NUMBER,GRADE VARCHAR2(20))
+
+OPEN dds;
+LOOP
+FETCH dds INTO STNAME,STSID,STMARK;
+EXIT WHEN dds%NOTFOUND;
+if stmark>40 then
+insert into RESULT values(STNAME,STSID,STMARK,'pass');
+dbms_output.put_line( STNAME||' '||STSID||' '||STMARK);
+elsif stmark<41 then
+insert into RESULT values(STNAME,STSID,STMARK,'failed');
+dbms_output.put_line( STNAME||' '||STSID||' '||STMARK);
+end if;
+
+END LOOP;
+
+CLOSE dds;
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+DECLARE
+	CURSOR dds IS SELECT * FROM TEMPSTU;
+	temprw tempstu%rowtype;
+BEGIN
+--RESULT(SNAME VARCHAR2(20),SID NUMBER PRIMARY KEY,MARK NUMBER,GRADE VARCHAR2(20))
+OPEN dds;
+	LOOP
+		FETCH dds INTO temprw;
+		EXIT WHEN dds%NOTFOUND;
+		if temprw.mark>40 then
+			insert into RESULT values(temprw.sname,temprw.SID,temprw.MARK,'pass');
+			--dbms_output.put_line( temprw.sname||' '||temprw.sname||' '||temprw.sname);
+		elsif temprw.mark<41 then
+			insert into RESULT values(temprw.sname,temprw.SID,temprw.MARK,'failed');
+			--dbms_output.put_line( temprw.sname||' '||temprw.sname||' '||temprw.sname);
+		end if;
+	END LOOP;
+CLOSE dds;
+END	
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+DECLARE
+	CURSOR ed IS SELECT * FROM tempemp;
+	temprw tempemp%rowtype;
+BEGIN
+--empdata(EMPNO NUMBER PRIMARY KEY,ENAME VARCHAR2(20),JOB VARCHAR2(20),SAL NUMBER,ANNUALSAL NUMBER )
+OPEN ed;
+	LOOP
+		FETCH ed INTO temprw;
+		EXIT WHEN ed%NOTFOUND;
+		if temprw.sal>40 then
+			insert into empdata values(temprw.empno,temprw.ename,temprw.job,temprw.sal,(temprw.sal));
+			 dbms_output.put_line( temprw.ename||' '||temprw.sal||' '||temprw.job);
+ 		--elsif temprw.mark<41 then
+			--insert into RESULT values(temprw.sname,temprw.SID,temprw.MARK,'failed');
+			--dbms_output.put_line( temprw.sname||' '||temprw.sname||' '||temprw.sname);
+		end if;
+	END LOOP;
+CLOSE ed;
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+DELETE FROM result WHERE mark is not NULL
+DELETE FROM empdata WHERE sal is not NULL
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+assignment-------------->
+
+DECLARE
+	CURSOR ed IS SELECT * FROM tempemp;
+	temprw tempemp%rowtype;
+BEGIN
+--empdata(EMPNO NUMBER PRIMARY KEY,ENAME VARCHAR2(20),JOB VARCHAR2(20),SAL NUMBER,ANNUALSAL NUMBER )
+OPEN ed;
+	LOOP
+		FETCH ed INTO temprw;
+		EXIT WHEN ed%NOTFOUND;
+		insert into empdata values(temprw.empno,temprw.ename,temprw.job,temprw.sal,((temprw.sal)+(nvl(temprw.comm,0)))*12);
+	END LOOP;
+CLOSE ed;
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+create table empdata(EMPNO NUMBER PRIMARY KEY,ENAME VARCHAR2(20),JOB VARCHAR2(20),SAL NUMBER,ANNUALSAL NUMBER )
+-----------------------------------------------------------------------------------------------------------------------------------------
+DECLARE
+BEGIN
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+FOR LOOP CURSOR
+
+DECLARE
+	CURSOR ED IS SELECT * FROM EMPDATA;
+BEGIN
+	FOR VN IN ED
+	LOOP
+		dbms_output.put_line(VN.ENAME);
+	END LOOP;
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE PRODUCT(PRODID NUMBER,PRODNAME VARCHAR2(20),QTY NUMBER,UNITPRICE NUMBER)
+INSERT INTO PRODUCT VALUES(4,'SHOE',1000,100)
+UPDATE PRODUCT SET PRODID=5 WHERE PRODNAME='BAG'
+-----------------------------------------------------------------------------------------------------------------------------------------
+DECLARE
+	CURSOR PD IS SELECT * FROM PRODUCT;
+        DISC NUMBER;
+        BILLAMT NUMBER;
+BEGIN
+	FOR VN IN PD
+	LOOP
+        BILLAMT :=(VN.QTY*VN.UNITPRICE);
+        IF BILLAMT >1000
+        THEN
+        DISC:=(BILLAMT*0.05);
+		dbms_output.put_line(VN.PRODID||' '||VN.PRODNAME||' '||VN.QTY||' '||(VN.QTY*VN.UNITPRICE)||' '||DISC||' '||((VN.QTY*VN.UNITPRICE)-DISC));
+        ELSIF BILLAMT <=1000 THEN
+                DISC:=0;
+                dbms_output.put_line(VN.PRODID||' '||VN.PRODNAME||' '||VN.QTY||' '||(VN.QTY*VN.UNITPRICE)||' '||DISC||' '||((VN.QTY*VN.UNITPRICE)-DISC));
+        END IF;
+	END LOOP;
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+DECLARE
+CURSOR SUP IS SELECT * FROM TEMPEMP;
+NEWSAL NUMBER;
+BEGIN
+
+FOR EMP IN SUP
+LOOP
+IF EMP.DEPTNO=10 THEN
+NEWSAL:=EMP.SAL+(EMP.SAL*0.05);
+UPDATE TEMPEMP SET SAL=NEWSAL WHERE DEPTNO=10;
+dbms_output.put_line(EMP.SAL);
+ELSIF EMP.DEPTNO=20 THEN
+UPDATE TEMPEMP SET SAL=SAL+(SAL*0.1) WHERE DEPTNO=20;
+dbms_output.put_line(EMP.SAL);
+ELSIF EMP.DEPTNO=30 THEN
+UPDATE TEMPEMP SET SAL=SAL+(SAL*0.15) WHERE DEPTNO=30;
+dbms_output.put_line(EMP.SAL);
+ELSIF EMP.DEPTNO=40 THEN
+UPDATE TEMPEMP SET SAL=SAL+(SAL*0.20) WHERE DEPTNO=40;
+dbms_output.put_line(EMP.SAL);
+END IF;
+END LOOP;
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+DECLARE
+	CURSOR SUP IS SELECT * FROM TEMPEMP;
+	NEWSAL NUMBER;
+BEGIN
+	FOR EMP IN SUP
+	LOOP
+	IF EMP.DEPTNO=10 THEN
+		NEWSAL:=EMP.SAL+(EMP.SAL*0.05);
+		UPDATE TEMPEMP SET SAL=NEWSAL WHERE DEPTNO=10;
+		dbms_output.put_line(NEWSAL||' '||EMP.SAL );
+	ELSIF EMP.DEPTNO=20 THEN
+		NEWSAL:=EMP.SAL+(EMP.SAL*0.10);
+		UPDATE TEMPEMP SET SAL=NEWSAL WHERE DEPTNO=20;
+		dbms_output.put_line(NEWSAL||' '||EMP.SAL );
+	ELSIF EMP.DEPTNO=30 THEN
+		NEWSAL:=EMP.SAL+(EMP.SAL*0.15);
+		UPDATE TEMPEMP SET SAL=NEWSAL WHERE DEPTNO=30;
+		dbms_output.put_line(NEWSAL||' '||EMP.SAL );
+	ELSIF EMP.DEPTNO=40 THEN
+		NEWSAL:=EMP.SAL+(EMP.SAL*0.20);
+		UPDATE TEMPEMP SET SAL=NEWSAL WHERE DEPTNO=40;
+		dbms_output.put_line(NEWSAL||' '||EMP.SAL );
+	END IF;
+	END LOOP;
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+ASSIGNMENT---------------->28 OCT
+DECLARE
+	CURSOR SUP IS SELECT * FROM TEMPEMP;
+	NEWSAL NUMBER;
+BEGIN
+	FOR EMP IN SUP
+	LOOP
+		IF EMP.DEPTNO=10 THEN
+		NEWSAL:=EMP.SAL+(EMP.SAL*0.05);
+		ELSIF EMP.DEPTNO=20 THEN
+		NEWSAL:=EMP.SAL+(EMP.SAL*0.10);		
+		ELSIF EMP.DEPTNO=30 THEN
+		NEWSAL:=EMP.SAL+(EMP.SAL*0.15);		
+		ELSIF EMP.DEPTNO=40 THEN
+		NEWSAL:=EMP.SAL+(EMP.SAL*0.20);
+		END IF;
+	--dbms_output.put_line(NEWSAL||'out '||EMP.SAL||' '||EMP.ENAME|| ' '||EMP.DEPTNO );
+        UPDATE TEMPEMP SET SAL=NEWSAL WHERE EMPNO=EMP.EMPNO;
+	END LOOP;
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+EMPNO	ENAME	JOB	MGR	HIREDATE	SAL	COMM	DEPTNO
+7839	KING	PRESIDENT	- 	11/17/1981	5010	1000	10
+7698	BLAKE	MANAGER	7839	05/01/1981	2860	- 	30
+7782	CLARK	MANAGER	7839	06/09/1981	2460	- 	10
+7566	JONES	MANAGER	7839	04/02/1981	2985	- 	20
+-----------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE TEMPEMP AS SELECT * FROM EMP
+DROP TABLE TEMPEMP
+-----------------------------------------------------------------------------------------------------------------------------------------
+DECLARE
+	CURSOR S1(ID NUMBER) IS SELECT * FROM TEMPSTU WHERE COURSEID=ID;
+	TMPRW TEMPSTU%ROWTYPE;
+        COURSE_ID NUMBER;
+BEGIN
+        COURSE_ID:=:COURSE_ID;
+	OPEN S1(COURSE_ID);
+	LOOP
+	FETCH S1 INTO TMPRW;
+	EXIT WHEN S1%NOTFOUND;
+	dbms_output.put_line(TMPRW.SNAME);
+	END LOOP;
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+CURSOR WITH PARAMETER---------------->28 OCT
+DECLARE
+	CURSOR S1(LWMARK NUMBER,HGMARK NUMBER) IS SELECT * FROM TEMPSTU WHERE MARK BETWEEN LWMARK AND HGMARK ;
+	TMPRW TEMPSTU%ROWTYPE;
+        LOWMARK NUMBER;
+        HIGHMARK NUMBER;
+BEGIN
+        LOWMARK:=50;
+        HIGHMARK:=80;
+	OPEN S1(LOWMARK,HIGHMARK);
+	LOOP
+	FETCH S1 INTO TMPRW;
+	EXIT WHEN S1%NOTFOUND;
+	dbms_output.put_line(TMPRW.SNAME ||'-'||TMPRW.MARK);
+	END LOOP;
+
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+We have already taken MD approval for removing the mail license. So we will discuss with CTO and CFO regarding this note and will update you.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
