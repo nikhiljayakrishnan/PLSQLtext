@@ -1271,7 +1271,126 @@ BEGIN
 
 END
 -----------------------------------------------------------------------------------------------------------------------------------------
+DECLARE
+BEGIN
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+----------<>------- FOR UPDATES
+DECLARE
+	CURSOR S1 IS SELECT * FROM TEMPSTU for update ;
+BEGIN
+        for strec in S1
+	LOOP
+	--EXIT WHEN S1%NOTFOUND;
+	dbms_output.put_line(strec .SNAME ||'-'||strec .MARK);
+	END LOOP;
+END
+-----------------------------------------------------------------------------------------------------------------------------------------
+----------<>-----FOR UPDATES and WHERE CURRENT
+DECLARE
+	CURSOR S1 IS SELECT * FROM TEMPSTU for update of mark ;
+BEGIN
+	for strec in S1
+	LOOP
+        update tempstu set mark=mark+1 where current of S1;
+	--EXIT WHEN S1%NOTFOUND;
+	dbms_output.put_line(strec.SNAME ||'-'||strec .MARK);
+	END LOOP;
+END
 
+-----------------------------------------------------------------------------------------------------------------------------------------
+-----------------> record
+DECLARE
+	type books is record(title varchar2(20), author varchar2(20));
+        book1 books;
+BEGIN
+book1.title:='IN TO THE WOODS';
+book1.author:='Mark Steis';
+
+	dbms_output.put_line(book1.title ||' '|| book1.author);
+
+END
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+Select EMPNO,ENAME,DNAME,SAL,JOB from tempemp,dept where tempemp.deptno=dept.deptno
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+DECLARE
+	type EREC is record(EEMPNO number, EENAME varchar2(20),EDNAME varchar2(20),ESAL number,EJOB varchar2(20));
+        Erec1 EREC ;
+        CURSOR s1 IS Select EMPNO,ENAME,DNAME,SAL,JOB from tempemp,dept where tempemp.deptno=dept.deptno ;
+BEGIN
+	open s1;
+		loop
+			fetch s1 into Erec1;
+			exit when s1%notfound;
+			dbms_output.put_line(Erec1.EEMPNO ||' '|| Erec1.EENAME||' '||Erec1.EDNAME ||' '||Erec1.ESAL||' '||Erec1.EJOB);
+		end loop;
+	close s1;
+END
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+DECLARE
+	type EREC is record(EEMPNO number, EENAME varchar2(20),EDNAME varchar2(20),ESAL number,EJOB varchar2(20));
+        Erec1 EREC ;
+        CURSOR s1 IS Select EMPNO,ENAME,DNAME,SAL,JOB from tempemp,dept where tempemp.deptno=dept.deptno ;
+        eenumber number;
+BEGIN
+	eenumber :=:emp_number;
+	--7782
+	open s1;
+		loop
+			fetch s1 into Erec1;
+			exit when s1%notfound;
+			if(eenumber=Erec1.EEMPNO)
+				then
+				dbms_output.put_line('Erec1.EEMPNO - Erec1.EENAME-Erec1.EDNAME -Erec1.ESAL-Erec1.EJOB');
+				dbms_output.put_line(Erec1.EEMPNO ||'-'|| Erec1.EENAME||'-'||Erec1.EDNAME ||'-'||Erec1.ESAL||'-'||Erec1.EJOB);
+			end if;
+		end loop;
+	close s1;
+exception
+  when OTHERS THEN
+  dbms_output.put_line('INVALID EMPLOYEE ID');
+END
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+----------------->01-NOV
+DECLARE
+	type EREC is record(EEMPNO number, EENAME varchar2(20),EDNAME varchar2(20),ESAL number,EJOB varchar2(20));
+        Erec1 EREC ;
+        EMPROW tempemp%rowtype;
+        eenumber number;
+BEGIN
+	eenumber :=:emp_number;
+        Select EMPNO,ENAME,DNAME,SAL,JOB into Erec1 from tempemp,dept where tempemp.deptno=dept.deptno and tempemp.EMPNO=eenumber;
+	dbms_output.put_line(Erec1.EEMPNO );
+
+EXCEPTION
+	WHEN NO_DATA_FOUND THEN
+	dbms_output.put_line('INVALID EMPLOYEE ID');
+END
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+DECLARE
+BEGIN
+END
 -----------------------------------------------------------------------------------------------------------------------------------------
 
 
