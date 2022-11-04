@@ -1501,8 +1501,52 @@ BEGIN
 	dbms_output.put_line('OUT COME OF THE PROCEDURE:- ' || NAME);
 END; 
 -----------------------------------------------------------------------------------------------------------------------------------------
+----------------------> NOV 4
+select * from tempstu
+insert into tempstu values ('CHACKO',7,4,56)
 
+---------------------------->
+CREATE OR REPLACE PROCEDURE UPDATESTUDENT(NAME IN VARCHAR2,sid in number, courseid in number, Mark in number) IS 
+BEGIN 
+   INSERT INTO TEMPSTU VALUES (NAME,SID,courseid,Mark );
+END;
+---------------------------->
+DECLARE
+	NAME VARCHAR2(100);
+	studentid number;
+	courseid number;
+	mark number;
+BEGIN 
+	NAME:=:name;
+	studentid:=:sid;
+	courseid:=:cid;
+	mark:=:mark;
+	UPDATESTUDENT(NAME,studentid,courseid,mark); 
+	EXCEPTION
+		WHEN OTHERS THEN
+		dbms_output.put_line('ERR ');
+END; 
 -----------------------------------------------------------------------------------------------------------------------------------------
+SELECT * FROM TEMPEMP
+UPDATE TEMPEMP SET SAL=SAL+(SAL*0.05) WHERE EMPNO=7782
+--7839
+---------------->
+CREATE OR REPLACE PROCEDURE SAL_INCREMENT(EMPNUMBER in number) 
+IS 
+BEGIN 
+   UPDATE TEMPEMP SET SAL=SAL+(SAL*0.05) WHERE EMPNO=EMPNUMBER;
+   dbms_output.put_line('SALARY INCREMENTED BY 5 PERCENT TO '||EMPNUMBER);
+END;
+------------------->
+DECLARE
+	EMPNUMBERNAME number;
+BEGIN 
+        EMPNUMBERNAME :=:EMPNUMBERNAME ;
+	SAL_INCREMENT(EMPNUMBERNAME); 
+EXCEPTION
+	WHEN OTHERS THEN
+	dbms_output.put_line('INVALID EMPNUMBER');
+END;
 
 -----------------------------------------------------------------------------------------------------------------------------------------
 
