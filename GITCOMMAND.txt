@@ -1,0 +1,24 @@
+cd
+ls
+-------------->set username and email
+git config --global user.name " sdf sdf"
+git config --global user.email "asdasdas@dfsd.com"
+
+-------------->get username and email
+git config --global user.name 
+git config --global user.email 
+
+---------------->
+
+--------------> command
+pwd
+ls -l
+ls -F
+git help
+git init -----------> create git repostory
+touch xxx.html----------->
+git add -all----------->
+git status----------->
+git commit----------->
+git branch -----------> show branch
+git checkout plsql-production
