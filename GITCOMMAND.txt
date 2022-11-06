@@ -17,7 +17,7 @@ ls -F
 git help
 git init -----------> create git repostory
 touch xxx.html----------->
-git add -all----------->
+git add --all----------->
 git status----------->
 git commit----------->
 git branch -----------> show branch
@@ -25,4 +25,19 @@ git checkout plsql-production
 git remote set-url origin https://github.com/sdfdsf.git
 git push origin master
 git remote -v
+
+---------------->there are three branches
+added git command file to branch feature
+git push origin plsql-feature
+----------------> to add same file to production
+git pull origin plsql-feature
+git add --all
+git commit -m "message"
+git push origin plsql-production
+
+---------------->
+git status -s
+git ls-files----------------> show stanged files
+
+
 
