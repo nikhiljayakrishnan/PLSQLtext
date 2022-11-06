@@ -36,8 +36,8 @@ git commit -m "message"
 git push origin plsql-production
 
 ---------------->
-git status -s
-git ls-files----------------> show stanged files
+git status -s----------------> show stanged files
+git ls-files
 
 
 
