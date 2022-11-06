@@ -17,7 +17,6 @@ ls -F
 git help
 git init -----------> create git repostory
 touch xxx.html----------->
-git add -all----------->
 git status----------->
 git commit----------->
 git branch -----------> show branch
