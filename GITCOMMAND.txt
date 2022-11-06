@@ -22,3 +22,7 @@ git status----------->
 git commit----------->
 git branch -----------> show branch
 git checkout plsql-production
+git remote set-url origin https://github.com/sdfdsf.git
+git push origin master
+git remote -v
+
