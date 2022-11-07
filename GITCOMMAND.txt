@@ -37,6 +37,7 @@ git push origin plsql-production
 ---------------->
 git status -s----------------> show stanged files
 git ls-files
+07-NOV-2022
 
 
 
