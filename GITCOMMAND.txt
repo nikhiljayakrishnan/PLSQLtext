@@ -18,6 +18,7 @@ git help
 git init -----------> create git repostory
 touch xxx.html----------->
 <<<<<<< HEAD
+<<<<<<< HEAD
 git add --all----------->
 =======
 <<<<<<< Updated upstream
@@ -25,6 +26,8 @@ git add -all----------->
 =======
 >>>>>>> Stashed changes
 >>>>>>> plsql-production
+=======
+>>>>>>> 704c8a87d00b7d89c3dc3f922009a08ec7473d1a
 git status----------->
 git commit----------->
 git branch -----------> show branch
@@ -49,15 +52,20 @@ git push origin plsql-production
 
 ---------------->
 
-git status -s
-git ls-files----------------> show stanged files
 
 
 
-=======
-git status -s----------------> show stanged files
-git ls-files
-07-NOV-2022
+
+
+
+
+
+
+
+
+
+
+
 
 
 -------------------> to change modified file from one branch to another
