@@ -17,11 +17,23 @@ ls -F
 git help
 git init -----------> create git repostory
 touch xxx.html----------->
+<<<<<<< HEAD
 git add --all----------->
+=======
+<<<<<<< Updated upstream
+git add -all----------->
+=======
+>>>>>>> Stashed changes
+>>>>>>> plsql-production
 git status----------->
 git commit----------->
 git branch -----------> show branch
 git checkout plsql-production
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+=======
+>>>>>>> plsql-production
 git remote set-url origin https://github.com/sdfdsf.git
 git push origin master
 git remote -v
@@ -36,8 +48,25 @@ git commit -m "message"
 git push origin plsql-production
 
 ---------------->
+
 git status -s
 git ls-files----------------> show stanged files
+
+
+
+=======
+git status -s----------------> show stanged files
+git ls-files
+07-NOV-2022
+
+
+-------------------> to change modified file from one branch to another
+git stash
+git status
+git checkout another branch
+git stash pop
+---------------------->
+
 
 
 
